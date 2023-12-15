@@ -37,32 +37,5 @@ JVM 구조는 크게 `클래스 로더` , `실행 엔진`, `런타임 영역`, `
 
 
 
-### ClassLoader
+ 
 
-ClassLoader는 Runtime 중에 JVM 메서드 영역에 동적으로 Java 클래스를 로드하는 역할을 한다. 
-
-자바는 동적로딩을 하는데, 이 동적로딩을 담당하는 부분이 ClassLoader이다.
-
-- 동작과정
-
-  - ClassLoader가 클래스를 메모리에 적재하는 과정은 크게 `Loading` , `Linking`, `Initializing` 세가지 단계로 이루어진다.
-
-    <img src="../images/classloader.png" width="600px" height="300px">
-
-    - 로딩(Loading)
-
-      - . class 파일이 JVM 에 의해 메서드 영역에 다음 정보를 저장한다.
-        - 로드된 클래스 정보와 이 클래스의 부모 클래스 정보
-        - 클래스 파일과 Class, Interface, Enum 관련 여부
-        - 변수나 메서드 등 정보
-
-    - 링킹(Linking)
-
-      - 검증(Verifying) : 읽어 들인 클래스가 자바 언어 명세 및 JVM 명세에 잘 부합하는지 검사한다.  이 과정은 다소 오버헤드가 발생할수 있기때문에 클래스패스에 있는 클래스 파일이 믿을수 있다면 성능향상을 위해 생략할 수 있다.  `Xverify:none`옵션을 통해 검증을 생략할수 있다.
-
-      - 준비(Preparing) : 클래스가 필요한 메모리를 할당하고, 클래스에서 정의된 필드.메서드, 인터페이스를 나타는 테이터 구조를 준비한다.
-      - 분석(Resolving) : 심볼릭 메모리 레퍼런스를 메서드 영역에 있는 실제 힙 메모리 영역에 있는 인스턴스에 대한 레퍼런스로 교체해준다. Constant Pool 의 심볼릭 레퍼런스를 실제 메모리 주소값으로 변경해주는 작업을 한다.  
-
-    - 초기화(Initializing)
-
-      - 클래스 변수들을 적절한 값으로 초기화 한다. ex) static, super class, class
